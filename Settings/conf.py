@@ -1,3 +1,4 @@
+var1 = '$VAR1'
 definitions = [
 'prod_reco_optfilter_bnb_v14_unblind_mcc8',
 'prod_reco_optfilter_extbnb_v14_mcc8',

@@ -1,19 +1,22 @@
 import Settings.conf as c
-import os, subprocess
+import os, stat, subprocess
 
 def createScript(d):
-'''
-Create a .txt file with the script that needs to be executed by tmux
-'''
-  text = '''source ~/.bash_profile
-source /grid/fermiapp/products/uboone/setup_uboone.sh
-setup uboonecode v07_07_00 -q e17:prof
-log getListFromDefinition -i %s -n 20000''' %(d)
-  file = open('Commands/%s.txt' %d,'w')
+  # Open gile
+  with open('Settings/sampleScript.sh','r') as inFile:
+    text = inFile.read()
+  # Replace text
+  text = text.replace(c.var1,d)
+  # Save file
+  outName = 'Temp/Commands/%s.sh' %d
+  file = open(outName,'w')
   file.write(text)
   file.close()
+  # Make executable
+  st = os.stat(outName)
+  os.chmod(outName, st.st_mode | stat.S_IEXEC)
 
 for d in c.definitions:
   createScript(d)
-  command = 'tmux new -d -s %s "Commands/%s.txt"' %(d,d)
+  command = 'tmux new -d -s %s "Temp/Commands/%s.sh"' %(d,d)
   subprocess.Popen(command, shell=True)
