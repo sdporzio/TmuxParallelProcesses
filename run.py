@@ -2,7 +2,7 @@ import Settings.conf as c
 import os, stat, subprocess
 
 def createScript(d):
-  # Open gile
+  # Open file
   with open('Settings/sampleScript.sh','r') as inFile:
     text = inFile.read()
   # Replace text
